@@ -43,9 +43,95 @@ AWTFAICharacter::AWTFAICharacter()
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
+    
+    static ConstructorHelpers::FClassFinder<AActor> ProjectileBP(TEXT("/Game/Blueprints/BP_MagicProjectile"));
+    if (ProjectileBP.Succeeded())
+    {
+        ProjectileClass = ProjectileBP.Class;
+    }
 }
 
 void AWTFAICharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
+}
+
+void AWTFAICharacter::MoveForward(float Value)
+{
+    if (Controller && Value != 0.0f)
+    {
+        const FRotator Rotation = Controller->GetControlRotation();
+        const FVector Direction = FRotationMatrix(Rotation).GetUnitAxis(EAxis::X);
+        AddMovementInput(Direction, Value);
+    }
+}
+
+void AWTFAICharacter::MoveRight(float Value)
+{
+    if (Controller && Value != 0.0f)
+    {
+        const FRotator Rotation = Controller->GetControlRotation();
+        const FVector Direction = FRotationMatrix(Rotation).GetUnitAxis(EAxis::Y);
+        AddMovementInput(Direction, Value);
+    }
+}
+
+void AWTFAICharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+    Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+    // Bewegung
+    PlayerInputComponent->BindAxis("MoveForward", this, &AWTFAICharacter::MoveForward);
+    PlayerInputComponent->BindAxis("MoveRight", this, &AWTFAICharacter::MoveRight);
+
+    // Angriff
+    PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AWTFAICharacter::HandleAttack);
+}
+
+void AWTFAICharacter::HandleAttack()
+{
+    if (!ProjectileClass) return;
+    
+    float CurrentTime = GetWorld()->GetTimeSeconds();
+    if (CurrentTime - LastAttackTime < AttackCooldown) return;
+    
+    APlayerController* PC = Cast<APlayerController>(GetController());
+    if (!PC) return;
+    
+    FHitResult Hit;
+    if (PC->GetHitResultUnderCursor(ECC_Visibility, false, Hit))
+    {
+        FVector SpawnLocation = GetActorLocation() + FVector(0, 0, 50.f); // leicht über Boden
+        FVector TargetLocation = Hit.ImpactPoint;
+        
+        FVector Direction = (TargetLocation - SpawnLocation);
+        
+        Direction.Z = 0; // Nur horizontale Richtung beachten
+        
+        if (Direction.IsNearlyZero())
+        {
+            Direction = FVector::ForwardVector; // Fallback, falls Richtung Null
+        }
+        else
+        {
+            Direction.Normalize();
+        }
+        
+        FRotator SpawnRotation = Direction.Rotation();
+        
+        FActorSpawnParameters SpawnParams;
+        SpawnParams.Owner = this;
+        SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+        
+        AActor* SpawnedProjectile = GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnLocation, SpawnRotation, SpawnParams);
+        if (SpawnedProjectile)
+        {
+            if (CastAnimation)
+            {
+                PlayAnimMontage(CastAnimation);
+            }
+            
+            LastAttackTime = CurrentTime;
+        }
+    }
 }

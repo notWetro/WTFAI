@@ -68,6 +68,7 @@ void AWTFAIPlayerController::OnInputStarted()
 // Triggered every frame when the input is held down
 void AWTFAIPlayerController::OnSetDestinationTriggered()
 {
+    /*
 	// We flag that the input is being pressed
 	FollowTime += GetWorld()->GetDeltaSeconds();
 	
@@ -96,10 +97,12 @@ void AWTFAIPlayerController::OnSetDestinationTriggered()
 		FVector WorldDirection = (CachedDestination - ControlledPawn->GetActorLocation()).GetSafeNormal();
 		ControlledPawn->AddMovementInput(WorldDirection, 1.0, false);
 	}
+     */
 }
 
 void AWTFAIPlayerController::OnSetDestinationReleased()
 {
+    /*
 	// If it was a short press
 	if (FollowTime <= ShortPressThreshold)
 	{
@@ -109,6 +112,7 @@ void AWTFAIPlayerController::OnSetDestinationReleased()
 	}
 
 	FollowTime = 0.f;
+     */
 }
 
 // Triggered every frame when the input is held down

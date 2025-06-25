@@ -21,6 +21,18 @@ public:
 	FORCEINLINE class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+    
+    // Angriff (Magie-Projektil)
+    UPROPERTY(EditDefaultsOnly, Category = "Combat")
+    TSubclassOf<AActor> ProjectileClass;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Combat")
+    float AttackCooldown = 1.0f;
+
+    void HandleAttack();
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
+    class UAnimMontage* CastAnimation;
 
 private:
 	/** Top down camera */
@@ -30,5 +42,13 @@ private:
 	/** Camera boom positioning the camera above the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
-};
+    
+protected:
+    virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+    void MoveForward(float Value);
+    void MoveRight(float Value);
+
+    float LastAttackTime = -100.0f;
+
+};
