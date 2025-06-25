@@ -26,6 +26,8 @@ AWTFAICharacter::AWTFAICharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 640.f, 0.f);
 	GetCharacterMovement()->bConstrainToPlane = true;
 	GetCharacterMovement()->bSnapToPlaneAtStart = true;
+    GetCharacterMovement()->JumpZVelocity = 600.f;
+    GetCharacterMovement()->AirControl = 0.2f;
 
 	// Create a camera boom...
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -83,9 +85,21 @@ void AWTFAICharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
     // Bewegung
     PlayerInputComponent->BindAxis("MoveForward", this, &AWTFAICharacter::MoveForward);
     PlayerInputComponent->BindAxis("MoveRight", this, &AWTFAICharacter::MoveRight);
+    PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AWTFAICharacter::StartJump);
+    PlayerInputComponent->BindAction("Jump", IE_Released, this, &AWTFAICharacter::StopJump);
 
     // Angriff
     PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AWTFAICharacter::HandleAttack);
+}
+
+void AWTFAICharacter::StartJump()
+{
+    Jump();
+}
+
+void AWTFAICharacter::StopJump()
+{
+    StopJumping();
 }
 
 void AWTFAICharacter::HandleAttack()

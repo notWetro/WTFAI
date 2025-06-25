@@ -48,6 +48,8 @@ protected:
 
     void MoveForward(float Value);
     void MoveRight(float Value);
+    void StartJump();
+    void StopJump();   
 
     float LastAttackTime = -100.0f;
 
