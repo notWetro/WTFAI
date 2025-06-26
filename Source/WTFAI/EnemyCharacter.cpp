@@ -28,7 +28,7 @@ void AEnemyCharacter::HandleAttack()
     AActor* Player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
     if (!Player || !ProjectileClass) return;
 
-    FVector Start = GetActorLocation() + FVector(0, 0, 60.f);
+    FVector Start = GetActorLocation() + FVector(0, 0, 50.f);
     FVector Direction = (Player->GetActorLocation() - Start).GetSafeNormal();
     Direction.Z = 0;
     FRotator SpawnRotation = Direction.Rotation();

@@ -153,3 +153,27 @@ void AWTFAICharacter::HandleAttack()
         }
     }
 }
+
+void AWTFAICharacter::BeginPlay()
+{
+    Super::BeginPlay();
+    CurrentHealth = MaxHealth;
+}
+
+float AWTFAICharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+    float DamageApplied = FMath::Min(CurrentHealth, DamageAmount);
+    CurrentHealth -= DamageApplied;
+
+    if (CurrentHealth <= 0.f)
+    {
+        Die(); // Eigene Funktion zum Zerstören oder Animieren
+    }
+
+    return DamageApplied;
+}
+
+void AWTFAICharacter::Die()
+{
+    Destroy(); // Oder Animation abspielen, etc.
+}

@@ -33,6 +33,17 @@ public:
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
     class UAnimMontage* CastAnimation;
+    
+    
+    virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
+
+    void Die();
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+    float MaxHealth = 50.f;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats")
+    float CurrentHealth;
 
 private:
 	/** Top down camera */
@@ -52,5 +63,7 @@ protected:
     void StopJump();   
 
     float LastAttackTime = -100.0f;
+    
+    virtual void BeginPlay() override;
 
 };
