@@ -15,6 +15,10 @@ AWTFAICharacter::AWTFAICharacter()
 {
 	// Set size for player capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
+  
+    GetCapsuleComponent()->SetCollisionObjectType(ECC_Pawn);
+    GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Overlap);
+
 
 	// Don't rotate character to camera direction
 	bUseControllerRotationPitch = false;

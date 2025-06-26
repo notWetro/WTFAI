@@ -2,6 +2,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "TimerManager.h"
+#include "Components/CapsuleComponent.h"
+
 
 AEnemyCharacter::AEnemyCharacter()
 {
@@ -9,6 +11,9 @@ AEnemyCharacter::AEnemyCharacter()
     CurrentHealth = MaxHealth;
     
     GetCharacterMovement()->MaxWalkSpeed = 200.f; // Standard ist 600.f
+    
+    GetCapsuleComponent()->SetCollisionObjectType(ECC_Pawn);
+    GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Overlap);
 }
 
 void AEnemyCharacter::BeginPlay()
