@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+﻿// Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "WTFAIPlayerController.h"
 #include "GameFramework/Pawn.h"
@@ -24,8 +24,18 @@ AWTFAIPlayerController::AWTFAIPlayerController()
 
 void AWTFAIPlayerController::BeginPlay()
 {
-	// Call the base class  
 	Super::BeginPlay();
+
+	// Hide the cursor once we're in-game
+	bShowMouseCursor = true;
+
+	// Switch back to Game-Only input
+	FInputModeGameAndUI InputMode;
+	InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+	InputMode.SetHideCursorDuringCapture(false);
+	SetInputMode(InputMode);
+
+
 }
 
 void AWTFAIPlayerController::SetupInputComponent()
