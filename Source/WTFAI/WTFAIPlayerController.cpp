@@ -11,6 +11,10 @@
 #include "InputActionValue.h"
 #include "EnhancedInputSubsystems.h"
 #include "Engine/LocalPlayer.h"
+#include "InputCoreTypes.h"        
+#include "Kismet/GameplayStatics.h"
+#include "Blueprint/UserWidget.h" 
+#include "UObject/ConstructorHelpers.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -20,7 +24,25 @@ AWTFAIPlayerController::AWTFAIPlayerController()
 	DefaultMouseCursor = EMouseCursor::Default;
 	CachedDestination = FVector::ZeroVector;
 	FollowTime = 0.f;
+
+	{
+		static ConstructorHelpers::FClassFinder<UUserWidget> PauseBP(
+			TEXT("/Game/UI/WBP_PauseMenu.WBP_PauseMenu_C")  
+		);
+		if (PauseBP.Succeeded())
+		{
+			PauseMenuWidgetClass = PauseBP.Class;
+			UE_LOG(LogTemplateCharacter, Log, TEXT("✅ Found PauseMenuWidgetClass: %s"), *PauseMenuWidgetClass->GetName());
+		}
+		else
+		{
+			UE_LOG(LogTemplateCharacter, Error, TEXT("❌ Failed to find PauseMenuWidget at path: %s"),
+				TEXT("/Game/UI/WBP_PauseMenu.WBP_PauseMenu_C"));  // ← same string here
+		}
+	}
 }
+
+
 
 void AWTFAIPlayerController::BeginPlay()
 {
@@ -42,6 +64,23 @@ void AWTFAIPlayerController::SetupInputComponent()
 {
 	// set up gameplay key bindings
 	Super::SetupInputComponent();
+
+	// Bind the PauseAction (from Enhanced Input)
+	if (UEnhancedInputComponent* EIC = Cast<UEnhancedInputComponent>(InputComponent))
+	{
+		if (PauseAction)
+		{
+			EIC->BindAction(PauseAction, ETriggerEvent::Started, this, &AWTFAIPlayerController::TogglePauseMenu);
+		}
+		// … your other Enhanced-Input bindings …
+	}
+
+	// As a fallback, also bind the Escape key directly
+	if (InputComponent)
+	{
+		InputComponent->BindKey(EKeys::Escape, IE_Pressed, this, &AWTFAIPlayerController::TogglePauseMenu);
+	}
+
 
 	// Add Input Mapping Context
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
@@ -137,3 +176,56 @@ void AWTFAIPlayerController::OnTouchReleased()
 	bIsTouch = false;
 	OnSetDestinationReleased();
 }
+
+
+void AWTFAIPlayerController::TogglePauseMenu()
+{
+	const bool bIsPaused = UGameplayStatics::IsGamePaused(this);
+	UE_LOG(LogTemplateCharacter, Warning, TEXT("🚨 TogglePauseMenu() called. GamePaused=%d"), bIsPaused);
+
+	if (bIsPaused)
+	{
+		// Unpause: remove widget if it exists
+		if (PauseMenuInstance)
+		{
+			PauseMenuInstance->RemoveFromParent();
+			PauseMenuInstance = nullptr;
+		}
+		UGameplayStatics::SetGamePaused(this, false);
+		bShowMouseCursor = false;
+		SetInputMode(FInputModeGameOnly());
+	}
+	else
+	{
+		// Spawn and show the menu
+		if (PauseMenuWidgetClass)
+		{
+			PauseMenuInstance = CreateWidget<UUserWidget>(this, PauseMenuWidgetClass);
+			if (PauseMenuInstance)
+			{
+				PauseMenuInstance->AddToViewport(100);
+			}
+			else
+			{
+				UE_LOG(LogTemplateCharacter, Error, TEXT("Failed to CreateWidget for PauseMenuInstance"));
+			}
+		}
+		else
+		{
+			UE_LOG(LogTemplateCharacter, Error, TEXT("PauseMenuWidgetClass is null"));
+		}
+
+		UGameplayStatics::SetGamePaused(this, true);
+		bShowMouseCursor = true;
+
+		FInputModeUIOnly UIInput;
+		UIInput.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+		if (PauseMenuInstance)
+		{
+			UIInput.SetWidgetToFocus(PauseMenuInstance->TakeWidget());
+		}
+		SetInputMode(UIInput);
+
+	}
+}
+

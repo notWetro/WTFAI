@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "Templates/SubclassOf.h"
 #include "GameFramework/PlayerController.h"
+#include "Blueprint/UserWidget.h"  // for UUserWidget
+
 #include "WTFAIPlayerController.generated.h"
 
 /** Forward declaration to improve compiling times */
@@ -42,6 +44,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	UInputAction* SetDestinationTouchAction;
 
+	/** Toggle the pause menu */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* PauseAction;
+
+
 protected:
 	/** True if the controlled character should navigate to the mouse cursor. */
 	uint32 bMoveToMouseCursor : 1;
@@ -58,11 +65,24 @@ protected:
 	void OnTouchTriggered();
 	void OnTouchReleased();
 
+	UFUNCTION()
+	void TogglePauseMenu();
+
+
 private:
 	FVector CachedDestination;
 
 	bool bIsTouch; // Is it a touch device
 	float FollowTime; // For how long it has been pressed
+
+	/** The Pause Menu widget class (found in the constructor) */
+	UPROPERTY()
+	TSubclassOf<UUserWidget> PauseMenuWidgetClass;
+
+	/** The runtime instance of the Pause Menu */
+	UPROPERTY()
+	UUserWidget* PauseMenuInstance;
+
 };
 
 
