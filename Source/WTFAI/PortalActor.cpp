@@ -1,8 +1,9 @@
-#include "PortalActor.h"
+﻿#include "PortalActor.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "WTFAICharacter.h" // Dein Spieler-Charakter!
+#include "WTFAICharacter.h"
+#include "WTFAIPlayerController.h"
 
 APortalActor::APortalActor()
 {
@@ -37,7 +38,13 @@ void APortalActor::OnOverlapBegin(UPrimitiveComponent* OverlappedComp,
     {
         if (Cast<AWTFAICharacter>(OtherActor))
         {
-            UGameplayStatics::OpenLevel(this, FName("Level_1"));
+            if (APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0))
+            {
+                if (AWTFAIPlayerController* MyPC = Cast<AWTFAIPlayerController>(PC))
+                {
+                    MyPC->ShowLevelSelect();
+                }
+            }
         }
     }
 }

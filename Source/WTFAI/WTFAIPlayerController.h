@@ -6,7 +6,7 @@
 #include "Templates/SubclassOf.h"
 #include "GameFramework/PlayerController.h"
 #include "Blueprint/UserWidget.h"  // for UUserWidget
-
+#include "LevelSelectWidget.h"
 #include "WTFAIPlayerController.generated.h"
 
 /** Forward declaration to improve compiling times */
@@ -48,6 +48,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* PauseAction;
 
+	UFUNCTION(BlueprintCallable)
+	void ShowLevelSelect();
+
 
 protected:
 	/** True if the controlled character should navigate to the mouse cursor. */
@@ -69,6 +72,9 @@ protected:
 	void TogglePauseMenu();
 
 
+
+
+
 private:
 	FVector CachedDestination;
 
@@ -82,6 +88,14 @@ private:
 	/** The runtime instance of the Pause Menu */
 	UPROPERTY()
 	UUserWidget* PauseMenuInstance;
+
+	// Class for your Level-Select UMG widget
+	UPROPERTY()
+	TSubclassOf<ULevelSelectWidget> LevelSelectWidgetClass;
+
+	// Runtime instance
+	UPROPERTY()
+	ULevelSelectWidget* LevelSelectInstance;
 
 };
 

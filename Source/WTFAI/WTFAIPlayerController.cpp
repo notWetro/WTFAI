@@ -15,6 +15,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Blueprint/UserWidget.h" 
 #include "UObject/ConstructorHelpers.h"
+#include "LevelSelectWidget.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -32,13 +33,21 @@ AWTFAIPlayerController::AWTFAIPlayerController()
 		if (PauseBP.Succeeded())
 		{
 			PauseMenuWidgetClass = PauseBP.Class;
-			UE_LOG(LogTemplateCharacter, Log, TEXT("✅ Found PauseMenuWidgetClass: %s"), *PauseMenuWidgetClass->GetName());
+			UE_LOG(LogTemplateCharacter, Log, TEXT(" Found PauseMenuWidgetClass: %s"), *PauseMenuWidgetClass->GetName());
 		}
 		else
 		{
-			UE_LOG(LogTemplateCharacter, Error, TEXT("❌ Failed to find PauseMenuWidget at path: %s"),
-				TEXT("/Game/UI/WBP_PauseMenu.WBP_PauseMenu_C"));  // ← same string here
+			UE_LOG(LogTemplateCharacter, Error, TEXT(" Failed to find PauseMenuWidget at path: %s"),
+				TEXT("/Game/UI/WBP_PauseMenu.WBP_PauseMenu_C")); 
 		}
+	}
+
+	static ConstructorHelpers::FClassFinder<ULevelSelectWidget> LSFinder(
+		TEXT("/Game/UI/WBP_LevelSelect.WBP_LevelSelect_C")
+	);
+	if (LSFinder.Succeeded())
+	{
+		LevelSelectWidgetClass = LSFinder.Class;
 	}
 }
 
@@ -228,4 +237,27 @@ void AWTFAIPlayerController::TogglePauseMenu()
 
 	}
 }
+
+void AWTFAIPlayerController::ShowLevelSelect()
+{
+	if (LevelSelectInstance == nullptr && LevelSelectWidgetClass)
+	{
+		LevelSelectInstance = CreateWidget<ULevelSelectWidget>(this, LevelSelectWidgetClass);
+		if (LevelSelectInstance)
+		{
+			LevelSelectInstance->AddToViewport(100);
+
+			// Pause the game
+			UGameplayStatics::SetGamePaused(this, true);
+
+			// Show cursor & switch to UI-only
+			bShowMouseCursor = true;
+			FInputModeUIOnly UI;
+			UI.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+			UI.SetWidgetToFocus(LevelSelectInstance->TakeWidget());
+			SetInputMode(UI);
+		}
+	}
+}
+
 
