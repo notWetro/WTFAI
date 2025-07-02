@@ -31,7 +31,7 @@ void UMainMenuWidget::NativeConstruct()
 
 void UMainMenuWidget::OnStartClicked()
 {
-    UGameplayStatics::OpenLevel(this, FName("TopDownMap"));
+    UGameplayStatics::OpenLevel(this, FName("Level_1"));
 }
 
 void UMainMenuWidget::OnQuitClicked()
