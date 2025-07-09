@@ -33,7 +33,7 @@ public:
     float AttackInterval = 3.0f;
 
     UPROPERTY(EditDefaultsOnly, Category = "Combat")
-    float MaxHealth = 30.0f;
+    float MaxHealth = 60.0f;
 
     float CurrentHealth;
 };

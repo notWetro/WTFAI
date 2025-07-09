@@ -55,11 +55,20 @@ AWTFAICharacter::AWTFAICharacter()
     {
         ProjectileClass = ProjectileBP.Class;
     }
+    
+    CurrentMana = MaxMana;
+}
+
+void AWTFAICharacter::BeginPlay()
+{
+    Super::BeginPlay();
+    CurrentHealth = MaxHealth;
 }
 
 void AWTFAICharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
+    RegenerateMana(DeltaSeconds);
 }
 
 void AWTFAICharacter::MoveForward(float Value)
@@ -113,6 +122,14 @@ void AWTFAICharacter::HandleAttack()
     float CurrentTime = GetWorld()->GetTimeSeconds();
     if (CurrentTime - LastAttackTime < AttackCooldown) return;
     
+    //Mana handling
+    float ManaCost = 20.0f;
+    if (!HasEnoughMana(ManaCost))
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Nicht genug Mana!"));
+        return;
+    }
+    
     APlayerController* PC = Cast<APlayerController>(GetController());
     if (!PC) return;
     
@@ -152,12 +169,7 @@ void AWTFAICharacter::HandleAttack()
             LastAttackTime = CurrentTime;
         }
     }
-}
-
-void AWTFAICharacter::BeginPlay()
-{
-    Super::BeginPlay();
-    CurrentHealth = MaxHealth;
+    ConsumeMana(ManaCost);
 }
 
 float AWTFAICharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
@@ -167,18 +179,53 @@ float AWTFAICharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damage
 
     if (CurrentHealth <= 0.f)
     {
-        Die(); // Eigene Funktion zum Zerstören oder Animieren
+        Die();
     }
 
     return DamageApplied;
 }
 
-float AWTFAICharacter::GetHealthPercent() const
+float AWTFAICharacter::GetMaxHealth() const
 {
-    return CurrentHealth / MaxHealth;
+    return MaxHealth;
+}
+
+float AWTFAICharacter::GetCurrentHealth() const
+{
+    return CurrentHealth;
 }
 
 void AWTFAICharacter::Die()
 {
     Destroy(); // Oder Animation abspielen, etc.
+}
+
+float AWTFAICharacter::GetManaPercent() const
+{
+    return CurrentMana / MaxMana;
+}
+
+float AWTFAICharacter::GetMaxMana() const
+{
+    return MaxMana;
+}
+
+float AWTFAICharacter::GetCurrentMana() const
+{
+    return CurrentMana;
+}
+
+bool AWTFAICharacter::HasEnoughMana(float Cost) const
+{
+    return CurrentMana >= Cost;
+}
+
+void AWTFAICharacter::ConsumeMana(float Cost)
+{
+    CurrentMana = FMath::Clamp(CurrentMana - Cost, 0.0f, MaxMana);
+}
+
+void AWTFAICharacter::RegenerateMana(float DeltaTime)
+{
+    CurrentMana = FMath::Clamp(CurrentMana + (30.0f * DeltaTime), 0.0f, MaxMana);
 }

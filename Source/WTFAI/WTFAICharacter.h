@@ -27,7 +27,7 @@ public:
     TSubclassOf<AActor> ProjectileClass;
 
     UPROPERTY(EditDefaultsOnly, Category = "Combat")
-    float AttackCooldown = 1.0f;
+    float AttackCooldown = 0.1f;
 
     void HandleAttack();
 
@@ -41,13 +41,28 @@ public:
     
     //Leben und Lebensanzeige
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-    float MaxHealth = 50.f;
+    float MaxHealth = 100.f;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats")
     float CurrentHealth;
     
-    UFUNCTION(BlueprintCallable, Category = "Health")
-    float GetHealthPercent() const;
+    UFUNCTION(BlueprintCallable, Category = "Stats")
+    float GetMaxHealth() const;
+    float GetCurrentHealth() const;
+
+    //Mana
+    float GetManaPercent() const;
+    float GetMaxMana() const;
+    float GetCurrentMana() const;
+    bool HasEnoughMana(float Cost) const;
+    void ConsumeMana(float Cost);
+    void RegenerateMana(float DeltaTime);
+    
+    UPROPERTY(EditDefaultsOnly, Category = "Stats")
+    float MaxMana = 100.0f;
+
+    UPROPERTY(VisibleAnywhere, Category = "Stats")
+    float CurrentMana;
 
 private:
 	/** Top down camera */
@@ -69,5 +84,4 @@ protected:
     float LastAttackTime = -100.0f;
     
     virtual void BeginPlay() override;
-
 };

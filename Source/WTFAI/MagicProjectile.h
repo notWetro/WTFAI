@@ -42,7 +42,7 @@ private:
     class UStaticMeshComponent* MeshComponent;
 
     UPROPERTY(EditDefaultsOnly, Category = "Combat")
-    float Damage = 10.f;
+    float Damage = 20.f;
 
     UPROPERTY(EditDefaultsOnly, Category = "Combat")
     float LifeSpanSeconds = 3.0f;

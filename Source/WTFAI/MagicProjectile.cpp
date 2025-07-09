@@ -73,9 +73,5 @@ void AMagicProjectile::OnOverlap(UPrimitiveComponent* OverlappedComp, AActor* Ot
     // Schaden anwenden
     UGameplayStatics::ApplyDamage(OtherActor, Damage, GetInstigatorController(), this, nullptr);
 
-    // Komponenten unsichtbar machen
-    MeshComponent->SetVisibility(false, true);
-    ParticleSystem->SetVisibility(false, true);
-
     Destroy();
 }
