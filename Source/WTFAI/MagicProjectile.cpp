@@ -41,6 +41,8 @@ AMagicProjectile::AMagicProjectile()
 void AMagicProjectile::BeginPlay()
 {
     Super::BeginPlay();
+    
+    StartLocation = GetActorLocation();
 
     // Eigener Owner wird ignoriert bei Bewegung
     if (GetOwner())
@@ -52,6 +54,13 @@ void AMagicProjectile::BeginPlay()
 void AMagicProjectile::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
+
+    float DistanceTravelled = FVector::Dist(StartLocation, GetActorLocation());
+
+    if (DistanceTravelled >= MaxTravelDistance)
+    {
+        Destroy();
+    }
 }
 
 void AMagicProjectile::OnOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,

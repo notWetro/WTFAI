@@ -24,6 +24,11 @@ private:
                    UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
                    bool bFromSweep, const FHitResult& SweepResult);
 
+    UPROPERTY(EditDefaultsOnly, Category = "Combat")
+    float MaxTravelDistance = 625.0f;
+
+    FVector StartLocation;
+
     UPROPERTY(VisibleAnywhere, Category = "Components")
     class USphereComponent* CollisionComp;
 
