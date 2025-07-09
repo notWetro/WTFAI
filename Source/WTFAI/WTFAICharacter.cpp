@@ -165,9 +165,9 @@ void AWTFAICharacter::HandleAttack()
             }
             
             LastAttackTime = CurrentTime;
+            ConsumeMana(ManaCost);
         }
     }
-    ConsumeMana(ManaCost);
 }
 
 float AWTFAICharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
