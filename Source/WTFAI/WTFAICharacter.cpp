@@ -173,6 +173,11 @@ float AWTFAICharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damage
     return DamageApplied;
 }
 
+float AWTFAICharacter::GetHealthPercent() const
+{
+    return CurrentHealth / MaxHealth;
+}
+
 void AWTFAICharacter::Die()
 {
     Destroy(); // Oder Animation abspielen, etc.

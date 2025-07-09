@@ -39,11 +39,15 @@ public:
 
     void Die();
     
+    //Leben und Lebensanzeige
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
     float MaxHealth = 50.f;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats")
     float CurrentHealth;
+    
+    UFUNCTION(BlueprintCallable, Category = "Health")
+    float GetHealthPercent() const;
 
 private:
 	/** Top down camera */

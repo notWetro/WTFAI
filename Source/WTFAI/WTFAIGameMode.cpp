@@ -1,12 +1,17 @@
-﻿// Copyright Epic Games, Inc. All Rights Reserved.
+// Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "WTFAIGameMode.h"
 #include "WTFAIPlayerController.h"
 #include "WTFAICharacter.h"
+#include "wtfaiHUD.h"
 #include "UObject/ConstructorHelpers.h"
 
 AWTFAIGameMode::AWTFAIGameMode()
 {
+    
+    //Lebensanzeige
+    HUDClass = AwtfaiHUD::StaticClass();
+    
 	// use our custom PlayerController class
 	PlayerControllerClass = AWTFAIPlayerController::StaticClass();
 

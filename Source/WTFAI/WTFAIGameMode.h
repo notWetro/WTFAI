@@ -1,9 +1,8 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "wtfaiHUD.h"
 #include "WTFAIGameMode.generated.h"
 
 UCLASS(minimalapi)
@@ -14,6 +13,3 @@ class AWTFAIGameMode : public AGameModeBase
 public:
 	AWTFAIGameMode();
 };
-
-
-
