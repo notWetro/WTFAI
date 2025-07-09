@@ -1,11 +1,15 @@
 # Where tf am I
 Abschlusspräsentation Spieleprogrammierung
+
 Informatik, Spieleprogrammierung
+
 Betreuer: Stefan Wehrenberg
 
 ## Team
 Niklas Fichtner (85822)
+
 Hikmet Gözaydin (85987)
+
 Oskar Pokorski (81749)
 
 ## Spielbeschreibung
@@ -22,9 +26,9 @@ In diesem spannenden Top-Down-Abenteuer findet sich dein Charakter unerwartet in
     - Dein Charakter fällt durch ein mysteriöses Rift und landet in einer unbekannten Parallelwelt. Um zurückzukehren, musst du weitere Rifts finden und durchqueren. Dabei erwarten dich spannende Abenteuer und zahlreiche Herausforderungen.
 
 ## Technische Umsetzung
-Engine: Unreal Engine 5
-Assets: FAB
-Versionsmanagement: GitHub
+- Engine: Unreal Engine 5
+- Assets: FAB
+- Versionsmanagement: GitHub
 
 ## Installationshinweise
 ### Spiel Installieren
