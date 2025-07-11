@@ -43,6 +43,6 @@ void ULevelSelectWidget::OnBackClicked()
             return;
         }
     }
-    RemoveFromParent();
+    UGameplayStatics::OpenLevel(this, TEXT("MainMenuMap"));
 }
 
