@@ -24,6 +24,10 @@ protected:
 	UPROPERTY(meta = (BindWidget))
 	UButton* QuitToMenuButton;
 
+	// Sound to play when Death Screen appears
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	USoundBase* DeathMusic;
+
 private:
 	// Handlers for button clicks
 	UFUNCTION()

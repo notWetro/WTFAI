@@ -7,6 +7,11 @@ void UDeathScreenWidget::NativeConstruct()
 {
     Super::NativeConstruct();
 
+    if (DeathMusic)
+    {
+        UGameplayStatics::PlaySound2D(this, DeathMusic);
+    }
+
     if (RestartButton)
     {
         RestartButton->OnClicked.AddDynamic(this, &UDeathScreenWidget::OnRestartClicked);
