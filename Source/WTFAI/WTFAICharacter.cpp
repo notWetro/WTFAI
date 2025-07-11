@@ -1,4 +1,4 @@
-#include "WTFAICharacter.h"
+﻿#include "WTFAICharacter.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Camera/CameraComponent.h"
 #include "Components/DecalComponent.h"
@@ -8,6 +8,9 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Materials/Material.h"
 #include "Engine/World.h"
+#include "WTFAIPlayerController.h"
+#include "Kismet/GameplayStatics.h"
+
 
 AWTFAICharacter::AWTFAICharacter()
 {
@@ -195,8 +198,28 @@ float AWTFAICharacter::GetCurrentHealth() const
 
 void AWTFAICharacter::Die()
 {
-    Destroy(); // Oder Animation abspielen, etc.
+    // Disable further input/movement
+    if (APlayerController* PC = Cast<APlayerController>(GetController()))
+    {
+        PC->DisableInput(PC);
+    }
+
+    // show the Death Screen
+    if (AWTFAIPlayerController* MyPC = Cast<AWTFAIPlayerController>(UGameplayStatics::GetPlayerController(this, 0)))
+    {
+        MyPC->ShowDeathScreen();
+    }
+    else
+    {
+        //just pause if we can’t get our controller
+        UGameplayStatics::SetGamePaused(this, true);
+    }
+
+    // hide, destroy the pawn mesh so the player cant move/see the corpse
+    SetActorHiddenInGame(true);
+    SetActorEnableCollision(false);
 }
+
 
 float AWTFAICharacter::GetManaPercent() const
 {

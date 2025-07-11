@@ -26,30 +26,41 @@ AWTFAIPlayerController::AWTFAIPlayerController()
 	CachedDestination = FVector::ZeroVector;
 	FollowTime = 0.f;
 
+	// Pause Menu widget lookup
 	{
 		static ConstructorHelpers::FClassFinder<UUserWidget> PauseBP(
-			TEXT("/Game/UI/WBP_PauseMenu.WBP_PauseMenu_C")  
+			TEXT("/Game/UI/WBP_PauseMenu.WBP_PauseMenu_C")
 		);
 		if (PauseBP.Succeeded())
 		{
 			PauseMenuWidgetClass = PauseBP.Class;
-			UE_LOG(LogTemplateCharacter, Log, TEXT(" Found PauseMenuWidgetClass: %s"), *PauseMenuWidgetClass->GetName());
-		}
-		else
-		{
-			UE_LOG(LogTemplateCharacter, Error, TEXT(" Failed to find PauseMenuWidget at path: %s"),
-				TEXT("/Game/UI/WBP_PauseMenu.WBP_PauseMenu_C")); 
 		}
 	}
 
-	static ConstructorHelpers::FClassFinder<ULevelSelectWidget> LSFinder(
-		TEXT("/Game/UI/WBP_LevelSelect.WBP_LevelSelect_C")
-	);
-	if (LSFinder.Succeeded())
+	// Level Select widget lookup
 	{
-		LevelSelectWidgetClass = LSFinder.Class;
+		static ConstructorHelpers::FClassFinder<ULevelSelectWidget> LSFinder(
+			TEXT("/Game/UI/WBP_LevelSelect.WBP_LevelSelect_C")
+		);
+		if (LSFinder.Succeeded())
+		{
+			LevelSelectWidgetClass = LSFinder.Class;
+		}
+		
+	}
+
+	// Death Screen widget lookup
+	{
+		static ConstructorHelpers::FClassFinder<UUserWidget> DeathBP(
+			TEXT("/Game/UI/WBP_DeathScreen.WBP_DeathScreen_C")
+		);
+		if (DeathBP.Succeeded())
+		{
+			DeathScreenWidgetClass = DeathBP.Class;
+		}
 	}
 }
+
 
 
 
@@ -258,6 +269,35 @@ void AWTFAIPlayerController::ShowLevelSelect()
 			SetInputMode(UI);
 		}
 	}
+}
+
+
+void AWTFAIPlayerController::ShowDeathScreen()
+{
+	if (DeathScreenInstance)
+	{
+		return;
+	}
+
+	if (DeathScreenWidgetClass)
+	{
+		DeathScreenInstance = CreateWidget<UUserWidget>(this, DeathScreenWidgetClass);
+		if (DeathScreenInstance)
+		{
+			DeathScreenInstance->AddToViewport(100);
+		}
+	}
+
+	UGameplayStatics::SetGamePaused(this, true);
+
+	bShowMouseCursor = true;
+	FInputModeUIOnly UI;
+	UI.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+	if (DeathScreenInstance)
+	{
+		UI.SetWidgetToFocus(DeathScreenInstance->TakeWidget());
+	}
+	SetInputMode(UI);
 }
 
 

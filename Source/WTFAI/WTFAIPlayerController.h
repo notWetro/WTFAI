@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Templates/SubclassOf.h"
 #include "GameFramework/PlayerController.h"
-#include "Blueprint/UserWidget.h"  // for UUserWidget
+#include "Blueprint/UserWidget.h"
 #include "LevelSelectWidget.h"
 #include "WTFAIPlayerController.generated.h"
 
@@ -50,6 +50,11 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ShowLevelSelect();
+
+	// Show the Death Screen UI
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	void ShowDeathScreen();
+
 
 
 protected:
@@ -96,6 +101,15 @@ private:
 	// Runtime instance
 	UPROPERTY()
 	ULevelSelectWidget* LevelSelectInstance;
+
+
+	// Death Screen widget class (found in constructor) 
+	UPROPERTY()
+	TSubclassOf<UUserWidget> DeathScreenWidgetClass;
+
+	// Runtime instance of the Death Screen
+	UPROPERTY()
+	UUserWidget* DeathScreenInstance;
 
 };
 
