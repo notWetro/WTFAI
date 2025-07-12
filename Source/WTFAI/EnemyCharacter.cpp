@@ -8,9 +8,7 @@
 AEnemyCharacter::AEnemyCharacter()
 {
     PrimaryActorTick.bCanEverTick = false;
-    CurrentHealth = MaxHealth;
-    
-    GetCharacterMovement()->MaxWalkSpeed = 200.f; // Standard ist 600.f
+    PrimaryActorTick.bCanEverTick = true;
     
     GetCapsuleComponent()->SetCollisionObjectType(ECC_Pawn);
     GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Overlap);
@@ -19,8 +17,27 @@ AEnemyCharacter::AEnemyCharacter()
 void AEnemyCharacter::BeginPlay()
 {
     Super::BeginPlay();
+    
+    CurrentHealth = MaxHealth;
+    GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 
     GetWorldTimerManager().SetTimer(AttackTimerHandle, this, &AEnemyCharacter::HandleAttack, AttackInterval, true);
+}
+
+void AEnemyCharacter::Tick(float DeltaTime)
+{
+    Super::Tick(DeltaTime);
+
+    if (bIsPlayingNonLoopingAnimation)
+        return;
+
+    if (GetVelocity().Size() > 10.f && WalkForwardAnim && GetMesh())
+    {
+        if (!GetMesh()->IsPlaying())
+        {
+            GetMesh()->PlayAnimation(WalkForwardAnim, true);
+        }
+    }
 }
 
 void AEnemyCharacter::HandleAttack()
@@ -37,6 +54,12 @@ void AEnemyCharacter::HandleAttack()
     SpawnParams.Owner = this;
 
     GetWorld()->SpawnActor<AActor>(ProjectileClass, Start, SpawnRotation, SpawnParams);
+    
+    if (AttackAnim && GetMesh())
+    {
+        GetMesh()->PlayAnimation(AttackAnim, false);
+    }
+
 }
 
 float AEnemyCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
@@ -47,6 +70,12 @@ float AEnemyCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damage
     if (CurrentHealth <= 0.f)
     {
         Die();
+        return DamageAmount;
+    }
+    
+    if (GetHitAnim && GetMesh())
+    {
+        GetMesh()->PlayAnimation(GetHitAnim, false);
     }
 
     return DamageAmount;
@@ -55,5 +84,18 @@ float AEnemyCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damage
 void AEnemyCharacter::Die()
 {
     GetWorldTimerManager().ClearTimer(AttackTimerHandle);
-    Destroy();
+
+    if (DieAnim && GetMesh())
+    {
+        GetMesh()->PlayAnimation(DieAnim, false);
+        // Delay before Destroy
+        GetWorldTimerManager().SetTimerForNextTick([this]()
+        {
+            SetLifeSpan(0.8f);
+        });
+    }
+    else
+    {
+        Destroy();
+    }
 }

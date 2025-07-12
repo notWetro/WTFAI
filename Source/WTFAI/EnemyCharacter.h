@@ -11,9 +11,11 @@ class WTFAI_API AEnemyCharacter : public ACharacter
 
 public:
     AEnemyCharacter();
+    
+    virtual void BeginPlay() override;
+    virtual void Tick(float DeltaTime) override;
 
 protected:
-    virtual void BeginPlay() override;
 
     UFUNCTION()
     void HandleAttack();
@@ -21,6 +23,24 @@ protected:
     void Die();
 
     FTimerHandle AttackTimerHandle;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animations")
+    UAnimSequence* WalkForwardAnim;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animations")
+    UAnimSequence* AttackAnim;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animations")
+    UAnimSequence* GetHitAnim;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animations")
+    UAnimSequence* DieAnim;
+    
+    UPROPERTY()
+    bool bIsPlayingWalkAnim = false;
+    
+    UPROPERTY()
+    bool bIsPlayingNonLoopingAnimation = false;
 
 public:
     virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
@@ -28,11 +48,14 @@ public:
 
     UPROPERTY(EditDefaultsOnly, Category = "Combat")
     TSubclassOf<AActor> ProjectileClass;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
+    float WalkSpeed = 200.0f; // Standard ist 600.f
 
-    UPROPERTY(EditDefaultsOnly, Category = "Combat")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
     float AttackInterval = 3.0f;
 
-    UPROPERTY(EditDefaultsOnly, Category = "Combat")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
     float MaxHealth = 60.0f;
 
     float CurrentHealth;
