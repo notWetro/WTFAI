@@ -21,6 +21,7 @@ protected:
     void HandleAttack();
 
     void Die();
+    bool bIsDying = false;
 
     FTimerHandle AttackTimerHandle;
     

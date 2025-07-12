@@ -20,6 +20,8 @@ void AEnemyCharacter::BeginPlay()
     
     CurrentHealth = MaxHealth;
     GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+    
+    GetMesh()->PlayAnimation(AttackAnim, false);
 
     GetWorldTimerManager().SetTimer(AttackTimerHandle, this, &AEnemyCharacter::HandleAttack, AttackInterval, true);
 }
@@ -45,7 +47,7 @@ void AEnemyCharacter::HandleAttack()
     AActor* Player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
     if (!Player || !ProjectileClass) return;
 
-    FVector Start = GetActorLocation() + FVector(0, 0, 50.f);
+    FVector Start = GetActorLocation() + FVector(0, 0, 40.f);
     FVector Direction = (Player->GetActorLocation() - Start).GetSafeNormal();
     Direction.Z = 0;
     FRotator SpawnRotation = Direction.Rotation();
@@ -55,7 +57,7 @@ void AEnemyCharacter::HandleAttack()
 
     GetWorld()->SpawnActor<AActor>(ProjectileClass, Start, SpawnRotation, SpawnParams);
     
-    if (AttackAnim && GetMesh())
+    if (AttackAnim && GetMesh() && !bIsDying)
     {
         GetMesh()->PlayAnimation(AttackAnim, false);
     }
@@ -73,7 +75,7 @@ float AEnemyCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damage
         return DamageAmount;
     }
     
-    if (GetHitAnim && GetMesh())
+    if (GetHitAnim && GetMesh() && !bIsDying)
     {
         GetMesh()->PlayAnimation(GetHitAnim, false);
     }
@@ -83,6 +85,9 @@ float AEnemyCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damage
 
 void AEnemyCharacter::Die()
 {
+    if (bIsDying) return;
+    bIsDying = true;
+    
     GetWorldTimerManager().ClearTimer(AttackTimerHandle);
 
     if (DieAnim && GetMesh())

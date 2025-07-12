@@ -1,4 +1,4 @@
-﻿#include "WTFAICharacter.h"
+#include "WTFAICharacter.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Camera/CameraComponent.h"
 #include "Components/DecalComponent.h"
@@ -137,7 +137,7 @@ void AWTFAICharacter::HandleAttack()
     FHitResult Hit;
     if (PC->GetHitResultUnderCursor(ECC_Visibility, false, Hit))
     {
-        FVector SpawnLocation = GetActorLocation() + FVector(0, 0, 50.f); // leicht über Boden
+        FVector SpawnLocation = GetActorLocation() + FVector(0, 0, 40.f); // leicht über Boden
         FVector TargetLocation = Hit.ImpactPoint;
         
         FVector Direction = (TargetLocation - SpawnLocation);
