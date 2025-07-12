@@ -17,6 +17,19 @@ void ULevelSelectWidget::NativeConstruct()
     {
         Level2Button->OnClicked.AddDynamic(this, &ULevelSelectWidget::OnLevel2Clicked);
     }
+    if (Level3Button)
+    {
+        Level3Button->OnClicked.AddDynamic(this, &ULevelSelectWidget::OnLevel3Clicked);
+    }
+    if (Level4Button)
+    {
+        Level4Button->OnClicked.AddDynamic(this, &ULevelSelectWidget::OnLevel4Clicked);
+    }
+    if (Level5Button)
+    {
+        Level5Button->OnClicked.AddDynamic(this, &ULevelSelectWidget::OnLevel5Clicked);
+    }
+
     if (BackButton)
     {
         BackButton->OnClicked.AddDynamic(this, &ULevelSelectWidget::OnBackClicked);
@@ -31,6 +44,21 @@ void ULevelSelectWidget::OnLevel1Clicked()
 void ULevelSelectWidget::OnLevel2Clicked()
 {
     UGameplayStatics::OpenLevel(this, TEXT("Level_2"));
+}
+
+void ULevelSelectWidget::OnLevel3Clicked()
+{
+    UGameplayStatics::OpenLevel(this, TEXT("Level_3"));
+}
+
+void ULevelSelectWidget::OnLevel4Clicked()
+{
+    UGameplayStatics::OpenLevel(this, TEXT("Level_4"));
+}
+
+void ULevelSelectWidget::OnLevel5Clicked()
+{
+    UGameplayStatics::OpenLevel(this, TEXT("Level_5"));
 }
 
 void ULevelSelectWidget::OnBackClicked()
