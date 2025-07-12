@@ -22,7 +22,11 @@ void UMainMenuWidget::NativeConstruct()
         ChooseLevelButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnChooseLevelClicked);
     }
 
-    // Ensure we start on the main‐menu panel
+    if (OptionsButton)
+    {
+        OptionsButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnOptionsClicked);
+    }
+
     if (MenuSwitcher)
     {
         MenuSwitcher->SetActiveWidgetIndex(0);
@@ -36,7 +40,6 @@ void UMainMenuWidget::OnStartClicked()
 
 void UMainMenuWidget::OnQuitClicked()
 {
-    // This will quit the game (in editor it’ll just stop play)
     APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0);
     UKismetSystemLibrary::QuitGame(this, PC, EQuitPreference::Quit, true);
 }
@@ -49,4 +52,10 @@ void UMainMenuWidget::OnChooseLevelClicked()
        MenuSwitcher->SetActiveWidgetIndex(1); 
     }
         
+}
+
+void UMainMenuWidget::OnOptionsClicked()
+{
+   if (MenuSwitcher)
+      MenuSwitcher->SetActiveWidgetIndex(2);
 }
