@@ -19,7 +19,7 @@ AMagicProjectile::AMagicProjectile()
     CollisionComp->OnComponentBeginOverlap.AddDynamic(this, &AMagicProjectile::OnOverlap);
     RootComponent = CollisionComp;
 
-    // Mesh (optional sichtbar)
+    // Mesh
     MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ProjectileMesh"));
     MeshComponent->SetupAttachment(RootComponent);
     MeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
@@ -70,7 +70,6 @@ void AMagicProjectile::OnOverlap(UPrimitiveComponent* OverlappedComp, AActor* Ot
     if (!OtherActor || OtherActor == this || OtherActor == GetOwner())
         return;
 
-    // Schaden anwenden
     UGameplayStatics::ApplyDamage(OtherActor, Damage, GetInstigatorController(), this, nullptr);
 
     Destroy();

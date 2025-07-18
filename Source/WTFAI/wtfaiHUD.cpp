@@ -34,7 +34,6 @@ void AwtfaiHUD::DrawHealthBar()
     // Dynamische Füllfarbe: grün → gelb → rot
     FLinearColor HealthColor = FLinearColor::LerpUsingHSV(FLinearColor::Red, FLinearColor::Green, HealthPercent);
 
-    // Füllung
     float FilledWidth = BarWidth * HealthPercent;
     DrawRect(HealthColor, ScreenX, ScreenY, FilledWidth, BarHeight);
 
@@ -68,7 +67,7 @@ void AwtfaiHUD::DrawManaBar()
     float FilledWidth = BarWidth * ManaPercent;
     DrawRect(ManaColor, ScreenX, ScreenY, FilledWidth, BarHeight);
     
-    // Lebensanzeige als Text
+    // Manaanzeige als Text
     FString ManaText = FString::Printf(TEXT("MP: %d / %d"), FMath::RoundToInt(CurrentMana), FMath::RoundToInt(MaxMana));
     FCanvasTextItem TextItem(FVector2D(ScreenX + Padding, ScreenY + BarHeight / 2), FText::FromString(ManaText), GEngine->GetSmallFont(), FLinearColor::White);
     TextItem.bCentreY = true;

@@ -20,34 +20,32 @@ AWTFAICharacter::AWTFAICharacter()
     GetCapsuleComponent()->SetCollisionObjectType(ECC_Pawn);
     GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Overlap);
 
-
 	// Don't rotate character to camera direction
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 
 	// Configure character movement
-	GetCharacterMovement()->bOrientRotationToMovement = true; // Rotate character to moving direction
+	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 640.f, 0.f);
 	GetCharacterMovement()->bConstrainToPlane = true;
 	GetCharacterMovement()->bSnapToPlaneAtStart = true;
     GetCharacterMovement()->JumpZVelocity = 600.f;
     GetCharacterMovement()->AirControl = 0.2f;
 
-	// Create a camera boom...
+	// Create a camera boom
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->SetUsingAbsoluteRotation(true); // Don't want arm to rotate when character does
+	CameraBoom->SetUsingAbsoluteRotation(true);
 	CameraBoom->TargetArmLength = 800.f;
 	CameraBoom->SetRelativeRotation(FRotator(-60.f, 0.f, 0.f));
-	CameraBoom->bDoCollisionTest = false; // Don't want to pull camera in when it collides with level
+	CameraBoom->bDoCollisionTest = false;
 
-	// Create a camera...
+	// Create a camera
 	TopDownCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("TopDownCamera"));
 	TopDownCameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	TopDownCameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
-	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
     
@@ -96,13 +94,10 @@ void AWTFAICharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 {
     Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-    // Bewegung
     PlayerInputComponent->BindAxis("MoveForward", this, &AWTFAICharacter::MoveForward);
     PlayerInputComponent->BindAxis("MoveRight", this, &AWTFAICharacter::MoveRight);
     PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AWTFAICharacter::StartJump);
     PlayerInputComponent->BindAction("Jump", IE_Released, this, &AWTFAICharacter::StopJump);
-
-    // Angriff
     PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AWTFAICharacter::HandleAttack);
 }
 
@@ -137,7 +132,7 @@ void AWTFAICharacter::HandleAttack()
     FHitResult Hit;
     if (PC->GetHitResultUnderCursor(ECC_Visibility, false, Hit))
     {
-        FVector SpawnLocation = GetActorLocation() + FVector(0, 0, 40.f); // leicht über Boden
+        FVector SpawnLocation = GetActorLocation() + FVector(0, 0, 40.f);
         FVector TargetLocation = Hit.ImpactPoint;
         
         FVector Direction = (TargetLocation - SpawnLocation);

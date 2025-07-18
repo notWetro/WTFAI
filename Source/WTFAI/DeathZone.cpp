@@ -11,7 +11,7 @@ ADeathZone::ADeathZone()
     TriggerZone = CreateDefaultSubobject<UBoxComponent>(TEXT("TriggerZone"));
     RootComponent = TriggerZone;
 
-    TriggerZone->SetBoxExtent(FVector(5000.0f, 5000.0f, 100.0f)); // Breite/Länge/“Dicke”
+    TriggerZone->SetBoxExtent(FVector(5000.0f, 5000.0f, 100.0f));
     TriggerZone->SetCollisionProfileName(TEXT("Trigger"));
     TriggerZone->SetGenerateOverlapEvents(true);
 

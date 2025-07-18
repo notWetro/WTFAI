@@ -1,4 +1,4 @@
-﻿#include "PortalActor.h"
+#include "PortalActor.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -9,16 +9,15 @@ APortalActor::APortalActor()
 {
     PrimaryActorTick.bCanEverTick = false;
 
-    // Erstelle die Mesh-Komponente
+    // Mesh-Komponente
     PortalMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PortalMesh"));
     RootComponent = PortalMesh;
 
-    // Erstelle die Collider-Komponente
+    // Collider-Komponente
     CollisionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionSphere"));
     CollisionSphere->SetupAttachment(RootComponent);
-    CollisionSphere->SetSphereRadius(100.f); // Beispielwert
+    CollisionSphere->SetSphereRadius(100.f);
 
-    // Binde die Overlap-Funktion
     CollisionSphere->OnComponentBeginOverlap.AddDynamic(this, &APortalActor::OnOverlapBegin);
 }
 
