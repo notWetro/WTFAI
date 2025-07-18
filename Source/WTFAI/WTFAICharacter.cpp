@@ -1,4 +1,4 @@
-#include "WTFAICharacter.h"
+﻿#include "WTFAICharacter.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Camera/CameraComponent.h"
 #include "Components/DecalComponent.h"
@@ -103,6 +103,10 @@ void AWTFAICharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 void AWTFAICharacter::StartJump()
 {
+    if (JumpSound)
+    {
+        UGameplayStatics::PlaySoundAtLocation(this, JumpSound, GetActorLocation());
+    }
     Jump();
 }
 
@@ -122,6 +126,10 @@ void AWTFAICharacter::HandleAttack()
     float ManaCost = 20.0f;
     if (!HasEnoughMana(ManaCost))
     {
+        if (LowManaSound)
+        {
+            UGameplayStatics::PlaySoundAtLocation(this, LowManaSound, GetActorLocation());
+        }
         UE_LOG(LogTemp, Warning, TEXT("Nicht genug Mana!"));
         return;
     }
@@ -172,6 +180,10 @@ float AWTFAICharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damage
 {
     float DamageApplied = FMath::Min(CurrentHealth, DamageAmount);
     CurrentHealth -= DamageApplied;
+    if (TakeDamageSound)
+    {
+        UGameplayStatics::PlaySoundAtLocation(this, TakeDamageSound, GetActorLocation());
+    }
 
     if (CurrentHealth <= 0.f)
     {

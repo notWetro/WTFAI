@@ -7,6 +7,11 @@ void UDeathScreenWidget::NativeConstruct()
 {
     Super::NativeConstruct();
 
+
+    if (DieSound)
+    {
+        UGameplayStatics::PlaySound2D(this, DieSound);
+    }
     if (DeathMusic)
     {
         UGameplayStatics::PlaySound2D(this, DeathMusic);
