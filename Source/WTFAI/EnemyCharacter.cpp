@@ -1,4 +1,4 @@
-#include "EnemyCharacter.h"
+﻿#include "EnemyCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "TimerManager.h"
@@ -61,7 +61,10 @@ void AEnemyCharacter::HandleAttack()
     {
         GetMesh()->PlayAnimation(AttackAnim, false);
     }
-
+    if (EnemyAttackAbilitySound)
+    {
+        UGameplayStatics::PlaySoundAtLocation(this, EnemyAttackAbilitySound, GetActorLocation());
+    }
 }
 
 float AEnemyCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,

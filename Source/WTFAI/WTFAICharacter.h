@@ -73,6 +73,9 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio")
     USoundBase* AttackSound = nullptr;
 
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio")
+    USoundBase* AttackAbilitySound = nullptr;
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* TopDownCameraComponent;

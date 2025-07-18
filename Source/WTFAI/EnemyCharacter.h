@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
@@ -60,4 +60,7 @@ public:
     float MaxHealth = 60.0f;
 
     float CurrentHealth;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio")
+    USoundBase* EnemyAttackAbilitySound = nullptr;
 };

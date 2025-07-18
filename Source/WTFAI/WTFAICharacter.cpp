@@ -138,6 +138,10 @@ void AWTFAICharacter::HandleAttack()
     {
         UGameplayStatics::PlaySoundAtLocation(this, AttackSound, GetActorLocation());
     }
+    if (AttackAbilitySound)
+    {
+        UGameplayStatics::PlaySoundAtLocation(this, AttackAbilitySound, GetActorLocation());
+    }
     
     APlayerController* PC = Cast<APlayerController>(GetController());
     if (!PC) return;
