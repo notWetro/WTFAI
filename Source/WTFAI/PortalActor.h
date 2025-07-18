@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -27,6 +27,9 @@ public:
                        int32 OtherBodyIndex,
                        bool bFromSweep,
                        const FHitResult& SweepResult);
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio")
+    USoundBase* LevelUpSound = nullptr;
 
 protected:
     virtual void BeginPlay() override;

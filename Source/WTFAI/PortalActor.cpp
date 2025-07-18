@@ -1,4 +1,4 @@
-#include "PortalActor.h"
+﻿#include "PortalActor.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -41,6 +41,10 @@ void APortalActor::OnOverlapBegin(UPrimitiveComponent* OverlappedComp,
             {
                 if (AWTFAIPlayerController* MyPC = Cast<AWTFAIPlayerController>(PC))
                 {
+                    if (LevelUpSound)
+                    {
+                        UGameplayStatics::PlaySound2D(this, LevelUpSound);
+                    }
                     MyPC->ShowLevelSelect();
                 }
             }
