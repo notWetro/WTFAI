@@ -133,6 +133,11 @@ void AWTFAICharacter::HandleAttack()
         UE_LOG(LogTemp, Warning, TEXT("Nicht genug Mana!"));
         return;
     }
+
+    if (AttackSound)
+    {
+        UGameplayStatics::PlaySoundAtLocation(this, AttackSound, GetActorLocation());
+    }
     
     APlayerController* PC = Cast<APlayerController>(GetController());
     if (!PC) return;

@@ -70,6 +70,9 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio")
     USoundBase* TakeDamageSound = nullptr;
 
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Audio")
+    USoundBase* AttackSound = nullptr;
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* TopDownCameraComponent;
