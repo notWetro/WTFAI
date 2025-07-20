@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+﻿// Copyright Epic Games, Inc. All Rights Reserved.
 
 #pragma once
 
@@ -44,7 +44,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ShowLevelSelect();
 
-	// Show the Death Screen UI
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	void ShowDeathScreen();
 
@@ -55,7 +54,6 @@ protected:
 
 	virtual void SetupInputComponent() override;
 	
-	// To add mapping context
 	virtual void BeginPlay() override;
 
 	void OnInputStarted();
@@ -83,18 +81,15 @@ private:
 	UPROPERTY()
 	UUserWidget* PauseMenuInstance;
 
-	// Class for your Level-Select UMG widget
 	UPROPERTY()
 	TSubclassOf<ULevelSelectWidget> LevelSelectWidgetClass;
 
 	UPROPERTY()
 	ULevelSelectWidget* LevelSelectInstance;
 
-	// Death Screen widget class
 	UPROPERTY()
 	TSubclassOf<UUserWidget> DeathScreenWidgetClass;
 
-	// Runtime instance of the Death Screen
 	UPROPERTY()
 	UUserWidget* DeathScreenInstance;
 

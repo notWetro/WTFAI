@@ -231,7 +231,6 @@ void AWTFAICharacter::Die()
         UGameplayStatics::SetGamePaused(this, true);
     }
 
-    // hide, destroy the pawn mesh so the player cant move/see the corpse
     SetActorHiddenInGame(true);
     SetActorEnableCollision(false);
 }

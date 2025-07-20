@@ -14,7 +14,7 @@ class WTFAI_API ULevelSelectWidget : public UUserWidget
 protected:
     virtual void NativeConstruct() override;
 
-    /** Buttons for each level (add more as needed) */
+    // Buttons for each level
     UPROPERTY(meta = (BindWidget))
     UButton* Level1Button;
 
@@ -30,7 +30,7 @@ protected:
     UPROPERTY(meta = (BindWidget))
     UButton* Level5Button;
 
-    /** Back button to return to the parent menu */
+    // Back button to return to the parent menu
     UPROPERTY(meta = (BindWidget))
     UButton* BackButton;
 

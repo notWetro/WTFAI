@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+﻿// Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "WTFAIPlayerController.h"
 #include "GameFramework/Pawn.h"
@@ -123,10 +123,7 @@ void AWTFAIPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(SetDestinationTouchAction, ETriggerEvent::Completed, this, &AWTFAIPlayerController::OnTouchReleased);
 		EnhancedInputComponent->BindAction(SetDestinationTouchAction, ETriggerEvent::Canceled, this, &AWTFAIPlayerController::OnTouchReleased);
 	}
-	else
-	{
-		UE_LOG(LogTemplateCharacter, Error, TEXT("'%s' Failed to find an Enhanced Input Component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
-	}
+	
 }
 
 void AWTFAIPlayerController::OnInputStarted()
@@ -160,7 +157,6 @@ void AWTFAIPlayerController::OnTouchReleased()
 void AWTFAIPlayerController::TogglePauseMenu()
 {
 	const bool bIsPaused = UGameplayStatics::IsGamePaused(this);
-	UE_LOG(LogTemplateCharacter, Warning, TEXT("🚨 TogglePauseMenu() called. GamePaused=%d"), bIsPaused);
 
 	if (bIsPaused)
 	{
@@ -184,15 +180,9 @@ void AWTFAIPlayerController::TogglePauseMenu()
 			{
 				PauseMenuInstance->AddToViewport(100);
 			}
-			else
-			{
-				UE_LOG(LogTemplateCharacter, Error, TEXT("Failed to CreateWidget for PauseMenuInstance"));
-			}
+			
 		}
-		else
-		{
-			UE_LOG(LogTemplateCharacter, Error, TEXT("PauseMenuWidgetClass is null"));
-		}
+		
 
 		UGameplayStatics::SetGamePaused(this, true);
 		bShowMouseCursor = true;
@@ -220,7 +210,6 @@ void AWTFAIPlayerController::ShowLevelSelect()
 			// Pause the game
 			UGameplayStatics::SetGamePaused(this, true);
 
-			// Show cursor & switch to UI-only
 			bShowMouseCursor = true;
 			FInputModeUIOnly UI;
 			UI.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);

@@ -17,12 +17,10 @@ public:
 protected:
     virtual void BeginPlay() override;
 
-    // Assigns our widget blueprint; set automatically in C++
     UPROPERTY()
     TSubclassOf<UUserWidget> MainMenuWidgetClass;
 
 private:
-    // Holds the created widget so it doesn’t get garbage-collected
     UPROPERTY()
     UUserWidget* MainMenuWidget;
 };

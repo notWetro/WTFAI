@@ -17,7 +17,6 @@ class WTFAI_API UDeathScreenWidget : public UUserWidget
 protected:
 	virtual void NativeConstruct() override;
 
-	// Bound widgets from the UMG Designer
 	UPROPERTY(meta = (BindWidget))
 	UButton* RestartButton;
 
@@ -32,7 +31,6 @@ protected:
 	USoundBase* DieSound = nullptr;
 
 private:
-	// Handlers for button clicks
 	UFUNCTION()
 	void OnRestartClicked();
 

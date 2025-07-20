@@ -12,10 +12,8 @@ class WTFAI_API UPauseMenuWidget : public UUserWidget
     GENERATED_BODY()
 
 protected:
-    // Called once the UI is constructed
     virtual void NativeConstruct() override;
 
-    // Bound widgets (must match names in UMG)
     UPROPERTY(meta = (BindWidget))
     UButton* ResumeButton;
 
@@ -23,7 +21,6 @@ protected:
     UButton* QuitToMenuButton;
 
 private:
-    // Handlers for the buttons
     UFUNCTION()
     void OnResumeClicked();
 

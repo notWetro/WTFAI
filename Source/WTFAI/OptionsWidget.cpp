@@ -9,7 +9,7 @@ void UOptionsWidget::NativeConstruct()
 {
     Super::NativeConstruct();
 
-    // 1) Load saved volume
+    // Load saved volume
     const FString SlotName = TEXT("VolumeSettings");
     const uint32 UserIndex = 0;
     if (USaveGame* SG = UGameplayStatics::LoadGameFromSlot(SlotName, UserIndex))
@@ -33,7 +33,7 @@ void UOptionsWidget::NativeConstruct()
         }
     }
 
-    // 2) Bind slider and Back button
+    // Bind slider and Back button
     if (MasterVolumeSlider)
         MasterVolumeSlider->OnValueChanged.AddDynamic(this, &UOptionsWidget::OnMasterVolumeChanged);
 
@@ -54,7 +54,6 @@ void UOptionsWidget::OnMasterVolumeChanged(float NewValue)
         UGameplayStatics::PushSoundMixModifier(this, MasterSoundMix);
     }
 
-    // Save immediately
     const FString SlotName = TEXT("VolumeSettings");
     const uint32 UserIndex = 0;
     if (UVolumeSettings* VS = Cast<UVolumeSettings>(
@@ -67,7 +66,6 @@ void UOptionsWidget::OnMasterVolumeChanged(float NewValue)
 
 void UOptionsWidget::OnBackClicked()
 {
-    // Flip back to main-menu in the switcher
     if (UPanelWidget* Parent = GetParent())
         if (UWidgetSwitcher* S = Cast<UWidgetSwitcher>(Parent))
         {
