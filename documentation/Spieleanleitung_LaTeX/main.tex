@@ -1,0 +1,156 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title{Spielanleitung: Where tf am I?}
+\author{Niklas Fichtner, Hikmet Gözaydin, Oskar Pokorski}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+\textbf{Version 1.0}
+\end{center}
+
+\tableofcontents
+\newpage
+
+\section*{Einleitung}
+Diese Spielanleitung dient dazu, neue Spieler schnell in die Welt von \textit{Where tf am I} einzuführen. Sie beschreibt die Installation, Bedienung und das Ziel des Spiels sowie wichtige Funktionen wie Pausieren und das Handling von Level-Ergebnissen.
+
+\newpage
+
+\section{Installation}
+\label{sec:installation}
+
+Um \textit{Where tf am I} zu spielen, folge diesen Schritten:
+
+\begin{itemize}
+    \item Klone das GitHub-Repository des Projekts.
+    \item Starte die ausführbare Datei (EXE), um das Spiel zu installieren und zu starten.
+\end{itemize}
+
+Das Spiel ist derzeit nur für PC verfügbar.
+
+\newpage
+
+\section{Menü}
+\label{sec:menu}
+
+Nach dem Start gelangst du ins Hauptmenü mit folgenden Optionen:
+
+\begin{itemize}
+    \item \textbf{Start}: Beginne das Spiel mit Level 1.
+    \item \textbf{Choose Level}: Wähle ein freigeschaltetes Level aus.
+    \item \textbf{Options}: Passe Einstellungen wie Sound an.
+    \item \textbf{Quit}: Beende das Spiel.
+\end{itemize}
+
+\newpage
+
+\section{Spielbedienung}
+\label{sec:spielbedienung}
+
+Die Steuerung ist einfach und wird in Level 1 eingeführt:
+
+\begin{itemize}
+    \item \textbf{Bewegung}: Nutze W (vorwärts), A (links), S (rückwärts), D (rechts).
+    \item \textbf{Springen}: Drücke die Leertaste.
+    \item \textbf{Schießen}: Klicke mit der linken Maustaste und richte den Mauszeiger auf Gegner, um einen Magieangriff auszuführen.
+    \item \textbf{Kamera}: Die Kamera ist fest; der Mauszeiger dient als Zielhilfe.
+    \item \textbf{Pausieren}: Drücke Esc, um das Pausemenü zu öffnen.
+\end{itemize}
+
+\newpage
+
+\section{Ziel des Spiels}
+\label{sec:ziel}
+
+Das Ziel von \textit{Where tf am I?} ist es, jedes Level zu durchqueren, Gegner zu besiegen oder zu umgehen, und das Portal am Ende zu erreichen, ohne dass die Lebenspunkte auf null sinken.
+
+\newpage
+
+\section{Statusanzeigen: HP und Mana}
+\label{sec:statusanzeigen}
+
+Links oben im Bildschirm siehst du deine Statusanzeigen:
+\begin{itemize}
+    \item \textbf{HP (Lebenspunkte)}: Zu Erkennen an dem roten Balken. Zeigt deine verbleibenden Lebenspunkte an. Du startest mit 100 HP und verlierst HP, wenn dich Gegner treffen. Sinkt dein HP-Wert auf 0, verlierst du das Level.
+    \item \textbf{Mana}: Zu Erkennen an dem blauen Balken. Zeigt deine verfügbare Mana-Menge an, die für Magieangriffe benötigt wird. Die Mana Punkte regenerieren sich mit der Zeit selbstständig.
+\end{itemize}
+
+\newpage
+
+\section{Gegner und ihre Eigenschaften}
+\label{sec:gegner}
+
+Im Spiel triffst du auf drei Gegnerarten, die sich in ihren Eigenschaften unterscheiden:
+
+\begin{itemize}
+    \item \textbf{Magier (normal)}
+        \begin{itemize}
+            \item HP: 60
+            \item Laufgeschwindigkeit: 200 (Einheiten pro Sekunde)
+            \item Angriffsgeschwindigkeit: 3 Sekunden Abklingzeit
+            \item Schaden pro Hit: 10 HP
+        \end{itemize}
+    \item \textbf{Schnellschuss-Magier}
+        \begin{itemize}
+            \item HP: 30
+            \item Laufgeschwindigkeit: 50
+            \item Angriffsgeschwindigkeit: 0,1 Sekunden Abklingzeit
+            \item Schaden pro Hit: 5 HP
+        \end{itemize}
+    \item \textbf{Tank-Magier}
+        \begin{itemize}
+            \item HP: 200
+            \item Laufgeschwindigkeit: 400
+            \item Angriffsgeschwindigkeit: 6 Sekunden Abklingzeit
+            \item Schaden pro Hit: 20 HP
+        \end{itemize}
+\end{itemize}
+
+Die Gegner verfolgen dich, sobald du ihnen Nahe kommst und greifen an. Ihre Angriffe richten sich immer auf deine Position.
+
+\newpage
+
+\section{Level pausieren}
+\label{sec:pause}
+
+Um das Spiel zu pausieren, drücke die Esc-Taste. Im Pausemenü kannst du:
+\begin{itemize}
+    \item Zurück zum Hauptmenü gehen (falls implementiert).
+    \item Das Spiel fortsetzen (Esc erneut drücken).
+\end{itemize}
+
+\newpage
+
+\section{Level geschafft}
+\label{sec:levelgeschafft}
+
+Wenn du ein Level erfolgreich abschließt, erscheint ein Bildschirm mit:
+\begin{itemize}
+    \item Das nächste Level auswählen.
+    \item Zum Hauptmenü zurückkehren.
+\end{itemize}
+
+Klicke auf die entsprechende Schaltfläche, um fortzufahren.
+
+\newpage
+
+\section{Level verloren}
+\label{sec:levelfehler}
+
+Du verlierst, wenn deine HP auf null fallen (z. B. durch Treffer von Gegnern) oder wenn du aus der Map herausfliegst. Dann siehst du einen Bildschirm mit:
+\begin{itemize}
+    \item "You died"
+    \item Level neustarten.
+    \item Zum Hauptmenü zurückkehren.
+\end{itemize}
+
+Wähle die gewünschte Aktion, um fortzufahren.
+
+\end{document}
