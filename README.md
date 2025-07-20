@@ -32,8 +32,12 @@ In diesem spannenden Top-Down-Abenteuer findet sich dein Charakter unerwartet in
 
 ## Installationshinweise
 ### Spiel Installieren
+- Klone das GitHub-Repository des Projekts.
+- Entpacke die Datei "WTFAI exe.zip"
+- Öffne die ausführbare Datei (./WTFAI/Windows/WTFAI.exe), um das Spiel zu starten.
 
-- ToDo
+
+Das Spiel ist derzeit nur für Windows PC verfügbar.
 
 ### Reppository klonen:
 Repository klonen:
