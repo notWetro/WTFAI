@@ -1,7 +1,7 @@
 # Where tf am I
 
 ## Demo Video
-![Demo Video WTFAI.mp4]
+![[./documentation/Demo Video WTFAI.mp4]]
 
 Informatik, Spieleprogrammierung
 
