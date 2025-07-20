@@ -1,8 +1,5 @@
 # Where tf am I
 
-## Demo Video
-[Demo Video herunterladen](documentation/Demo Video WTFAI.mp4)
-
 Informatik, Spieleprogrammierung
 
 Betreuer: Stefan Wehrenberg
