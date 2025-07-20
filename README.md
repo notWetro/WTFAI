@@ -1,5 +1,4 @@
 # Where tf am I
-Abschlusspräsentation Spieleprogrammierung
 
 Informatik, Spieleprogrammierung
 
@@ -36,6 +35,10 @@ In diesem spannenden Top-Down-Abenteuer findet sich dein Charakter unerwartet in
 - Entpacke die Datei "WTFAI exe.zip"
 - Öffne die ausführbare Datei (./WTFAI/Windows/WTFAI.exe), um das Spiel zu starten.
 
+oder
+
+- nur die Datei "WTFAI exe.zip" unterladen (Link){https://github.com/notWetro/WTFAI/raw/refs/heads/main/WTFAI%20exe.zip?download=}
+- Öffne die ausführbare Datei (./WTFAI/Windows/WTFAI.exe), um das Spiel zu starten.
 
 Das Spiel ist derzeit nur für Windows PC verfügbar.
 
